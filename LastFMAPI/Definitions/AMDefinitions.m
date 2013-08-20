@@ -249,7 +249,7 @@ NSString *const AM_XML_KEY_FAILED = @"failed";
 @end
 
 #pragma mark NSNull AMNilAddition Extension
-@implementation NSNull (NullAddition)
+@implementation NSNull (AMNilAddition)
 +(id)nullWhenNil:(id)obj
 {
     return (obj ? obj : [self null]);
