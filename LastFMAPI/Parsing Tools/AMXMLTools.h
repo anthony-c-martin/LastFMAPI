@@ -1,5 +1,10 @@
 #import <Foundation/Foundation.h>
 #import <LastFMAPI/TBXML.h>
+#import <LastFMAPI/AMDataObjects.h>
+
+@interface AMDataObject ()
+-(id)initFromNode:(TBXMLElement *)Node;
+@end
 
 @interface AMXMLTools : NSObject
 
