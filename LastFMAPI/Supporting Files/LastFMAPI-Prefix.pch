@@ -1,0 +1,9 @@
+//
+// Prefix header for all source files of the 'LastFMAPI' target in the 'LastFMAPI' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
+
+#define ARC_ENABLED
