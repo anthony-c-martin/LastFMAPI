@@ -16,14 +16,14 @@
     return self;
 }
 
--(void)responseWithData:(TBXMLElement *)Data
+-(void)responseWithData:(GDataXMLElement *)Data
 {
     if ([self Method] == AM_MTHD_ALBUM_GETINFO) [self GetInfo:Data];
 }
 
--(void)GetInfo:(TBXMLElement *)Data
+-(void)GetInfo:(GDataXMLElement *)Data
 {
-    TBXMLElement *albumElement = [TBXML childElementNamed:@"album" parentElement:Data];
+    GDataXMLElement *albumElement = [AMXMLTools getFirstChild:Data Named:@"album"];
     AMAlbumWithInfo *albumInfo = [[AMAlbumWithInfo alloc] initFromNode:albumElement];
     if ([[self Delegate] respondsToSelector:@selector(AlbumResponse:GetInfo:)])
     {

@@ -16,14 +16,14 @@
     return self;
 }
 
--(void)responseWithData:(TBXMLElement *)Data
+-(void)responseWithData:(GDataXMLElement *)Data
 {
     if ([self Method] == AM_MTHD_AUTH_GETMOBILESESSION) [self GetMobileSession:Data];
     else if ([self Method] == AM_MTHD_AUTH_GETSESSION) [self GetSession:Data];
     else if ([self Method] == AM_MTHD_AUTH_GETTOKEN) [self GetToken:Data];
 }
 
--(void)GetMobileSession:(TBXMLElement *)Data
+-(void)GetMobileSession:(GDataXMLElement *)Data
 {
     AMSession *session = [[AMSession alloc] initFromNode:Data];
     if ([[self Delegate] respondsToSelector:@selector(AuthResponse:GetMobileSession:)])
@@ -32,7 +32,7 @@
     }
 }
 
--(void)GetSession:(TBXMLElement *)Data
+-(void)GetSession:(GDataXMLElement *)Data
 {
     AMSession *session = [[AMSession alloc] initFromNode:Data];
     if ([[self Delegate] respondsToSelector:@selector(AuthResponse:GetSession:)])
@@ -41,7 +41,7 @@
     }
 }
 
--(void)GetToken:(TBXMLElement *)Data
+-(void)GetToken:(GDataXMLElement *)Data
 {
     AMToken *token = [[AMToken alloc] initFromNode:Data];
     if ([[self Delegate] respondsToSelector:@selector(AuthResponse:GetToken:)])

@@ -2,37 +2,69 @@
 
 @implementation AMXMLTools
 
-+(NSString *)getTextValue:(NSString *)Child Node:(TBXMLElement *)Parent
++(NSString *)getTextValue:(NSString *)Child
+                     Node:(GDataXMLElement *)Parent
 {
     if (Parent)
     {
-        TBXMLElement *ChildElement = [TBXML childElementNamed:Child parentElement:Parent];
+        GDataXMLElement *ChildElement = [self getFirstChild:Parent Named:Child];
         if (ChildElement)
         {
-            return [[NSString alloc] initWithString:[TBXML textForElement:ChildElement]];
+            return [self getTextValue:ChildElement];
         }
     }
     return nil;
 }
 
-+(NSNumber *)getIntValue:(NSString *)Child Node:(TBXMLElement *)Parent
++(NSNumber *)getIntValue:(NSString *)Child
+                    Node:(GDataXMLElement *)Parent
 {
     if (Parent)
     {
-        TBXMLElement *ChildElement = [TBXML childElementNamed:Child parentElement:Parent];
+        GDataXMLElement *ChildElement = [self getFirstChild:Parent Named:Child];
         if (ChildElement)
         {
-            return [[NSNumber alloc] initWithInt:[[TBXML textForElement:ChildElement] intValue]];
+            return [self getIntValue:ChildElement];
         }
     }
     return nil;
 }
 
-+(NSString *)getTextAttribute:(NSString *)Attribute Node:(TBXMLElement *)Parent
++(NSString *)getTextValue:(GDataXMLElement *)Parent
 {
     if (Parent)
     {
-        NSString *Value = [TBXML valueOfAttributeNamed:Attribute forElement:Parent];
+        return [[NSString alloc] initWithString:[Parent stringValue]];
+    }
+    return nil;
+}
+
++(NSNumber *)getIntValue:(GDataXMLElement *)Parent
+{
+    if (Parent)
+    {
+        return [[NSNumber alloc] initWithInt:[[Parent stringValue] intValue]];
+    }
+    return nil;
+}
+
++(GDataXMLElement *)getFirstChild:(GDataXMLElement *)Parent
+                            Named:(NSString *)Name
+{
+    return (GDataXMLElement*)[[self getChildren:Parent Named:Name] objectAtIndex:0];
+}
+
++(NSArray *)getChildren:(GDataXMLElement *)Parent
+                  Named:(NSString *)Name
+{
+    return [Parent elementsForName:Name];
+}
+
++(NSString *)getTextAttribute:(NSString *)Attribute Node:(GDataXMLElement *)Parent
+{
+    if (Parent)
+    {
+        NSString *Value = [(GDataXMLElement *) [Parent attributeForName:Attribute] stringValue];
         if (Value)
         {
             return [[NSString alloc] initWithString:Value];
@@ -41,11 +73,11 @@
     return nil;
 }
 
-+(NSNumber *)getIntAttribute:(NSString *)Attribute Node:(TBXMLElement *)Parent
++(NSNumber *)getIntAttribute:(NSString *)Attribute Node:(GDataXMLElement *)Parent
 {
     if (Parent)
     {
-        NSString *Value = [TBXML valueOfAttributeNamed:Attribute forElement:Parent];
+        NSString *Value = [(GDataXMLElement *) [Parent attributeForName:Attribute] stringValue];
         if (Value)
         {
             return [[NSNumber alloc] initWithInt:[Value intValue]];
@@ -54,7 +86,7 @@
     return nil;
 }
 
-+(NSDictionary *)getDictionaryFromParent:(TBXMLElement *)Parent
++(NSDictionary *)getDictionaryFromParent:(GDataXMLElement *)Parent
                           TextAttributes:(NSArray *)TextAttributes
                            IntAttributes:(NSArray *)IntAttributes
 {
@@ -85,7 +117,7 @@
     return nil;
 }
 
-+(NSArray *)getDictionaryArrayFromParent:(TBXMLElement *)Parent
++(NSArray *)getDictionaryArrayFromParent:(GDataXMLElement *)Parent
                                      Key:(NSString *)Key
                           TextAttributes:(NSArray *)TextAttributes
                            IntAttributes:(NSArray *)IntAttributes
@@ -93,7 +125,7 @@
     NSMutableArray *Array = [[NSMutableArray alloc] init];
     if (Parent)
     {
-        [self enumerateNodes:Parent Key:Key Block:^(TBXMLElement *Element, BOOL *stop)
+        [self enumerateNodes:Parent Key:Key Block:^(GDataXMLElement *Element, BOOL *stop)
          {
              NSDictionary *Dictionary = [self getDictionaryFromParent:Element TextAttributes:TextAttributes IntAttributes:IntAttributes];
              if (Dictionary)
@@ -106,7 +138,7 @@
     return nil;
 }
 
-+(NSArray *)getDictionaryArrayFromParent:(TBXMLElement *)Parent
++(NSArray *)getDictionaryArrayFromParent:(GDataXMLElement *)Parent
                                      Key:(NSString *)Key
                                   SubKey:(NSString *)SubKey
                           TextAttributes:(NSArray *)TextAttributes
@@ -115,9 +147,9 @@
     NSMutableArray *Array = [[NSMutableArray alloc] init];
     if (Parent)
     {
-        [self enumerateNodes:Parent Key:Key Block:^(TBXMLElement *Element, BOOL *stop)
+        [self enumerateNodes:Parent Key:Key Block:^(GDataXMLElement *Element, BOOL *stop)
         {
-            TBXMLElement *ChildNode = [TBXML childElementNamed:SubKey parentElement:Element];
+            GDataXMLElement *ChildNode = [self getFirstChild:Element Named:SubKey];
             NSDictionary *Dictionary = [self getDictionaryFromParent:ChildNode TextAttributes:TextAttributes IntAttributes:IntAttributes];
             if (Dictionary)
             {
@@ -129,22 +161,17 @@
     return nil;
 }
 
-+(void)enumerateNodes:(TBXMLElement *)Node
++(void)enumerateNodes:(GDataXMLElement *)Node
                   Key:(NSString *)Key
-                Block:(void (^)(TBXMLElement *Element, BOOL *stop)) block;
+                Block:(void (^)(GDataXMLElement *Element, BOOL *stop)) block;
 {
     if (Node)
     {
-        TBXMLElement *ChildNode = [TBXML childElementNamed:Key parentElement:Node];
-        while (ChildNode)
+        NSArray *ChildNodes = [self getChildren:Node Named:Key];
+        BOOL stop = NO;
+        for (NSUInteger i = 0; i < ChildNodes.count && !stop; i++)
         {
-            BOOL stop = NO;
-            block(ChildNode, &stop);
-            if (stop)
-            {
-                break;
-            }
-            ChildNode = [TBXML nextSiblingNamed:Key searchFromElement:ChildNode];
+            block((GDataXMLElement *)[ChildNodes objectAtIndex:i], &stop);
         }
     }
 }

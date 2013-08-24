@@ -2,7 +2,7 @@
 #import <LastFMAPI/AMXMLTools.h>
 
 @implementation AMDataObject
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
@@ -19,24 +19,24 @@
 @synthesize Large;
 @synthesize ExtraLarge;
 @synthesize Mega;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
     {
-        [AMXMLTools enumerateNodes:Node Key:@"image" Block:^(TBXMLElement *Element, BOOL *stop)
+        [AMXMLTools enumerateNodes:Node Key:@"image" Block:^(GDataXMLElement *Element, BOOL *stop)
          {
              NSString *sizeVal = [AMXMLTools getTextAttribute:@"size" Node:Element];
              if ([sizeVal isEqualToString:@"small"])
-                 [self setSmall:[TBXML textForElement:Element]];
+                 [self setSmall:[AMXMLTools getTextValue:Element]];
              else if ([sizeVal isEqualToString:@"medium"])
-                 [self setMedium:[TBXML textForElement:Element]];
+                 [self setMedium:[AMXMLTools getTextValue:Element]];
              else if ([sizeVal isEqualToString:@"large"])
-                 [self setLarge:[TBXML textForElement:Element]];
+                 [self setLarge:[AMXMLTools getTextValue:Element]];
              else if ([sizeVal isEqualToString:@"extralarge"])
-                 [self setExtraLarge:[TBXML textForElement:Element]];
+                 [self setExtraLarge:[AMXMLTools getTextValue:Element]];
              else if ([sizeVal isEqualToString:@"mega"])
-                 [self setMega:[TBXML textForElement:Element]];
+                 [self setMega:[AMXMLTools getTextValue:Element]];
          }];
     }
     return self;
@@ -46,7 +46,7 @@
 @implementation AMTag
 @synthesize Name;
 @synthesize URL;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
@@ -60,13 +60,13 @@
 
 @implementation AMTags
 
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
     {
         _Array = [[NSMutableArray alloc] init];
-        [AMXMLTools enumerateNodes:Node Key:@"tag" Block:^(TBXMLElement *Element, BOOL *stop)
+        [AMXMLTools enumerateNodes:Node Key:@"tag" Block:^(GDataXMLElement *Element, BOOL *stop)
         {
             AMTag *foundElement = [[AMTag alloc] initFromNode:Element];
             [_Array addObject:foundElement];
@@ -88,7 +88,7 @@
 @synthesize Name;
 @synthesize MBID;
 @synthesize URL;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
@@ -102,13 +102,13 @@
 @end
 
 @implementation AMArtists
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
     {
         _Array = [[NSMutableArray alloc] init];
-        [AMXMLTools enumerateNodes:Node Key:@"artist" Block:^(TBXMLElement *Element, BOOL *stop)
+        [AMXMLTools enumerateNodes:Node Key:@"artist" Block:^(GDataXMLElement *Element, BOOL *stop)
          {
              AMArtist *foundElement = [[AMArtist alloc] initFromNode:Element];
              [_Array addObject:foundElement];
@@ -134,7 +134,7 @@
 @synthesize URL;
 @synthesize Streamable;
 @synthesize Artist;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
@@ -145,20 +145,20 @@
         self.MBID = [AMXMLTools getTextValue:@"mbid" Node:Node];
         self.URL = [AMXMLTools getTextValue:@"url" Node:Node];
         self.Streamable = [AMXMLTools getIntValue:@"streamable" Node:Node];
-        self.Artist = [[AMArtist alloc] initFromNode:[TBXML childElementNamed:@"artist" parentElement:Node]];
+        self.Artist = [[AMArtist alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"artist"]];
     }
     return self;
 }
 @end
 
 @implementation AMTracks
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
     {
         _Array = [[NSMutableArray alloc] init];
-        [AMXMLTools enumerateNodes:Node Key:@"track" Block:^(TBXMLElement *Element, BOOL *stop)
+        [AMXMLTools enumerateNodes:Node Key:@"track" Block:^(GDataXMLElement *Element, BOOL *stop)
          {
              AMTrack *foundElement = [[AMTrack alloc] initFromNode:Element];
              [_Array addObject:foundElement];
@@ -185,7 +185,7 @@
 @synthesize Streamable;
 @synthesize Streamable_Fulltrack;
 @synthesize Artist;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
@@ -196,21 +196,21 @@
         self.MBID = [AMXMLTools getTextValue:@"mbid" Node:Node];
         self.URL = [AMXMLTools getTextValue:@"url" Node:Node];
         self.Streamable = [AMXMLTools getIntValue:@"streamable" Node:Node];
-        self.Streamable_Fulltrack = [AMXMLTools getIntAttribute:@"fulltrack" Node:[TBXML childElementNamed:@"streamable" parentElement:Node]];
-        self.Artist = [[AMArtist alloc] initFromNode:[TBXML childElementNamed:@"artist" parentElement:Node]];
+        self.Streamable_Fulltrack = [AMXMLTools getIntAttribute:@"fulltrack" Node:[AMXMLTools getFirstChild:Node Named:@"streamable"]];
+        self.Artist = [[AMArtist alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"artist"]];
     }
     return self;
 }
 @end
 
 @implementation AMAlbumTracks
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
     {
         _Array = [[NSMutableArray alloc] init];
-        [AMXMLTools enumerateNodes:Node Key:@"track" Block:^(TBXMLElement *Element, BOOL *stop)
+        [AMXMLTools enumerateNodes:Node Key:@"track" Block:^(GDataXMLElement *Element, BOOL *stop)
          {
              AMAlbumTrack *foundElement = [[AMAlbumTrack alloc] initFromNode:Element];
              [_Array addObject:foundElement];
@@ -234,7 +234,7 @@
 @synthesize MBID;
 @synthesize URL;
 @synthesize Images;
--(id)initFromNode:(TBXMLElement *)Node;
+-(id)initFromNode:(GDataXMLElement *)Node;
 {
     self = [super init];
     if (self)
@@ -257,7 +257,7 @@
 @synthesize Published;
 @synthesize Summary;
 @synthesize Content;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
@@ -273,7 +273,7 @@
 @implementation AMStats
 @synthesize Listeners;
 @synthesize Playcount;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
@@ -291,16 +291,16 @@
 @synthesize Similar;
 @synthesize Tags;
 @synthesize Bio;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super initFromNode:Node];
     if (self)
     {
         self.Streamable = [AMXMLTools getIntValue:@"streamable" Node:Node];
-        self.Stats = [[AMStats alloc] initFromNode:[TBXML childElementNamed:@"stats" parentElement:Node]];
-        self.Similar = [[AMArtists alloc] initFromNode:[TBXML childElementNamed:@"similar" parentElement:Node]];
-        self.Tags = [[AMTags alloc] initFromNode:[TBXML childElementNamed:@"tags" parentElement:Node]];
-        self.Bio = [[AMBio alloc] initFromNode:[TBXML childElementNamed:@"bio" parentElement:Node]];
+        self.Stats = [[AMStats alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"stats"]];
+        self.Similar = [[AMArtists alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"similar"]];
+        self.Tags = [[AMTags alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"tags"]];
+        self.Bio = [[AMBio alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"bio"]];
     }
     return self;
 }
@@ -313,17 +313,17 @@
 @synthesize Wiki;
 @synthesize Album;
 @synthesize Toptags;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super initFromNode:Node];
     if (self)
     {
         self.ID = [AMXMLTools getIntValue:@"id" Node:Node];
         self.Duration = [AMXMLTools getIntValue:@"duration" Node:Node];
-        self.Streamable_Fulltrack = [AMXMLTools getIntAttribute:@"fulltrack" Node:[TBXML childElementNamed:@"streamable" parentElement:Node]];
-        self.Wiki = [[AMBio alloc] initFromNode:[TBXML childElementNamed:@"wiki" parentElement:Node]];
-        self.Album = [[AMAlbum alloc] initFromNode:[TBXML childElementNamed:@"album" parentElement:Node]];
-        self.Toptags = [[AMTags alloc] initFromNode:[TBXML childElementNamed:@"toptags" parentElement:Node]];
+        self.Streamable_Fulltrack = [AMXMLTools getIntAttribute:@"fulltrack" Node:[AMXMLTools getFirstChild:Node Named:@"streamable"]];
+        self.Wiki = [[AMBio alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"wiki"]];
+        self.Album = [[AMAlbum alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"album"]];
+        self.Toptags = [[AMTags alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"toptags"]];
     }
     return self;
 }
@@ -336,7 +336,7 @@
 @synthesize Playcount;
 @synthesize Toptags;
 @synthesize Tracks;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super initFromNode:Node];
     if (self)
@@ -345,8 +345,8 @@
         self.Releasedate = [AMXMLTools getTextValue:@"releasedate" Node:Node];
         self.Listeners = [AMXMLTools getIntValue:@"listeners" Node:Node];
         self.Playcount = [AMXMLTools getIntValue:@"playcount" Node:Node];
-        self.Toptags = [[AMTags alloc] initFromNode:[TBXML childElementNamed:@"toptags" parentElement:Node]];
-        self.Tracks = [[AMAlbumTracks alloc] initFromNode:[TBXML childElementNamed:@"tracks" parentElement:Node]];
+        self.Toptags = [[AMTags alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"toptags"]];
+        self.Tracks = [[AMAlbumTracks alloc] initFromNode:[AMXMLTools getFirstChild:Node Named:@"tracks"]];
     }
     return self;
 }
@@ -356,12 +356,12 @@
 @synthesize Name;
 @synthesize Key;
 @synthesize Subscriber;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
     {
-        TBXMLElement *sessionNode = [TBXML childElementNamed:@"session" parentElement:Node];
+        GDataXMLElement *sessionNode = [AMXMLTools getFirstChild:Node Named:@"session"];
         self.Name = [AMXMLTools getTextValue:@"name" Node:sessionNode];
         self.Key = [AMXMLTools getTextValue:@"key" Node:sessionNode];
         self.Subscriber = [AMXMLTools getIntValue:@"subscriber" Node:sessionNode];
@@ -372,7 +372,7 @@
 
 @implementation AMToken
 @synthesize Token;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
@@ -394,28 +394,28 @@
 @synthesize AlbumArtist_Corrected;
 @synthesize IgnoredMessage;
 @synthesize IgnoredMessage_Code;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
     {
         self.Track = [AMXMLTools getTextValue:@"track" Node:Node];
-        self.Track_Corrected = [AMXMLTools getIntAttribute:@"corrected" Node:[TBXML childElementNamed:@"track" parentElement:Node]];
+        self.Track_Corrected = [AMXMLTools getIntAttribute:@"corrected" Node:[AMXMLTools getFirstChild:Node Named:@"track"]];
         self.Artist = [AMXMLTools getTextValue:@"artist" Node:Node];
-        self.Artist_Corrected = [AMXMLTools getIntAttribute:@"corrected" Node:[TBXML childElementNamed:@"artist" parentElement:Node]];
+        self.Artist_Corrected = [AMXMLTools getIntAttribute:@"corrected" Node:[AMXMLTools getFirstChild:Node Named:@"artist"]];
         self.Album = [AMXMLTools getTextValue:@"album" Node:Node];
-        self.Album_Corrected = [AMXMLTools getIntAttribute:@"corrected" Node:[TBXML childElementNamed:@"album" parentElement:Node]];
+        self.Album_Corrected = [AMXMLTools getIntAttribute:@"corrected" Node:[AMXMLTools getFirstChild:Node Named:@"album"]];
         self.AlbumArtist = [AMXMLTools getTextValue:@"albumArtist" Node:Node];
-        self.AlbumArtist_Corrected = [AMXMLTools getIntAttribute:@"corrected" Node:[TBXML childElementNamed:@"albumArtist" parentElement:Node]];
+        self.AlbumArtist_Corrected = [AMXMLTools getIntAttribute:@"corrected" Node:[AMXMLTools getFirstChild:Node Named:@"albumArtist"]];
         self.IgnoredMessage = [AMXMLTools getTextValue:@"ignoredMessage" Node:Node];
-        self.IgnoredMessage_Code = [AMXMLTools getIntAttribute:@"code" Node:[TBXML childElementNamed:@"ignoredMessage" parentElement:Node]];
+        self.IgnoredMessage_Code = [AMXMLTools getIntAttribute:@"code" Node:[AMXMLTools getFirstChild:Node Named:@"ignoredMessage"]];
     }
     return self;
 }
 @end
 
 @implementation AMNowPlaying
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super initFromNode:Node];
     if (self)
@@ -428,7 +428,7 @@
 
 @implementation AMScrobble
 @synthesize Timestamp;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super initFromNode:Node];
     if (self)
@@ -442,13 +442,13 @@
 @implementation AMScrobbles
 @synthesize Accepted;
 @synthesize Ignored;
--(id)initFromNode:(TBXMLElement *)Node
+-(id)initFromNode:(GDataXMLElement *)Node
 {
     self = [super init];
     if (self)
     {
         _Array = [[NSMutableArray alloc] init];
-        [AMXMLTools enumerateNodes:Node Key:@"scrobble" Block:^(TBXMLElement *Element, BOOL *stop)
+        [AMXMLTools enumerateNodes:Node Key:@"scrobble" Block:^(GDataXMLElement *Element, BOOL *stop)
          {
              AMScrobble *foundElement = [[AMScrobble alloc] initFromNode:Element];
              [_Array addObject:foundElement];

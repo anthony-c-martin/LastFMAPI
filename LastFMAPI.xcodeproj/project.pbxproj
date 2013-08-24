@@ -20,7 +20,6 @@
 		00083A02179BC60400986A94 /* AMDefinitions.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CD6D021798864C00B14BF0 /* AMDefinitions.m */; };
 		00083A03179BC60400986A94 /* AMBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 00769EDD178F5AEF00211809 /* AMBaseRequest.m */; };
 		00083A04179BC60400986A94 /* AMBaseResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CD6CFD179885C400B14BF0 /* AMBaseResponse.m */; };
-		00083A05179BC60400986A94 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 00ABFD881790D70500E079A0 /* TBXML.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		00083A06179BC61F00986A94 /* AMXMLTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CD6CF11797CA2F00B14BF0 /* AMXMLTools.h */; settings = {ATTRIBUTES = (); }; };
 		00083A07179BC61F00986A94 /* AMDataObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = 00ABFE011797425900E079A0 /* AMDataObjects.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00083A08179BC61F00986A94 /* AMAuthResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CD6D0D179888CD00B14BF0 /* AMAuthResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -32,7 +31,9 @@
 		00083A0E179BC61F00986A94 /* AMDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CD6D011798864C00B14BF0 /* AMDefinitions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00083A0F179BC61F00986A94 /* AMBaseRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CD6CFB179880D900B14BF0 /* AMBaseRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00083A10179BC61F00986A94 /* AMBaseResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 00CD6CFE179885C400B14BF0 /* AMBaseResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		00083A11179BC61F00986A94 /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 00ABFD891790D70500E079A0 /* TBXML.h */; settings = {ATTRIBUTES = (); }; };
+		00D42B6817C73298003F70B7 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D42B6617C73298003F70B7 /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		00D42B6917C73298003F70B7 /* GDataXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 00D42B6717C73298003F70B7 /* GDataXMLNode.h */; };
+		00D42B6B17C73326003F70B7 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00D42B6A17C73326003F70B7 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,8 +48,6 @@
 		00769EC7178F552600211809 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		00769EDD178F5AEF00211809 /* AMBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBaseRequest.m; sourceTree = "<group>"; };
 		00769EE0178F5FFF00211809 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		00ABFD881790D70500E079A0 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
-		00ABFD891790D70500E079A0 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
 		00ABFDB31795CF0600E079A0 /* AMXMLTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMXMLTools.m; sourceTree = "<group>"; };
 		00ABFE011797425900E079A0 /* AMDataObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDataObjects.h; sourceTree = "<group>"; };
 		00CD6CF11797CA2F00B14BF0 /* AMXMLTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMXMLTools.h; sourceTree = "<group>"; };
@@ -70,6 +69,9 @@
 		00CD6D1B17989F3100B14BF0 /* AMAlbumResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMAlbumResponse.m; sourceTree = "<group>"; };
 		00CD6D1E17989F4500B14BF0 /* AMAlbumRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMAlbumRequest.h; sourceTree = "<group>"; };
 		00CD6D1F17989F4500B14BF0 /* AMAlbumRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMAlbumRequest.m; sourceTree = "<group>"; };
+		00D42B6617C73298003F70B7 /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
+		00D42B6717C73298003F70B7 /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
+		00D42B6A17C73326003F70B7 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00D42B6B17C73326003F70B7 /* libxml2.dylib in Frameworks */,
 				000839EC179BC5E200986A94 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,7 +113,6 @@
 		00769EB4178F552600211809 = {
 			isa = PBXGroup;
 			children = (
-				00769EE0178F5FFF00211809 /* Security.framework */,
 				000839ED179BC5E200986A94 /* LastFMAPI */,
 				00769EC1178F552600211809 /* Frameworks */,
 				00769EC0178F552600211809 /* Products */,
@@ -128,6 +130,8 @@
 		00769EC1178F552600211809 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				00769EE0178F5FFF00211809 /* Security.framework */,
+				00D42B6A17C73326003F70B7 /* libxml2.dylib */,
 				00769EC2178F552600211809 /* Cocoa.framework */,
 				00769EC4178F552600211809 /* Other Frameworks */,
 			);
@@ -186,8 +190,8 @@
 		00CD6D1117988F0300B14BF0 /* Parsing Tools */ = {
 			isa = PBXGroup;
 			children = (
-				00ABFD881790D70500E079A0 /* TBXML.m */,
-				00ABFD891790D70500E079A0 /* TBXML.h */,
+				00D42B6617C73298003F70B7 /* GDataXMLNode.m */,
+				00D42B6717C73298003F70B7 /* GDataXMLNode.h */,
 				00CD6CF11797CA2F00B14BF0 /* AMXMLTools.h */,
 				00ABFDB31795CF0600E079A0 /* AMXMLTools.m */,
 				00ABFE011797425900E079A0 /* AMDataObjects.h */,
@@ -214,7 +218,7 @@
 				00083A0F179BC61F00986A94 /* AMBaseRequest.h in Headers */,
 				00083A10179BC61F00986A94 /* AMBaseResponse.h in Headers */,
 				00083A06179BC61F00986A94 /* AMXMLTools.h in Headers */,
-				00083A11179BC61F00986A94 /* TBXML.h in Headers */,
+				00D42B6917C73298003F70B7 /* GDataXMLNode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +296,7 @@
 				00083A02179BC60400986A94 /* AMDefinitions.m in Sources */,
 				00083A03179BC60400986A94 /* AMBaseRequest.m in Sources */,
 				00083A04179BC60400986A94 /* AMBaseResponse.m in Sources */,
-				00083A05179BC60400986A94 /* TBXML.m in Sources */,
+				00D42B6817C73298003F70B7 /* GDataXMLNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +324,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LastFMAPI/Supporting Files/LastFMAPI-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "LastFMAPI/Supporting Files/LastFMAPI-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -338,6 +343,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LastFMAPI/Supporting Files/LastFMAPI-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "LastFMAPI/Supporting Files/LastFMAPI-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

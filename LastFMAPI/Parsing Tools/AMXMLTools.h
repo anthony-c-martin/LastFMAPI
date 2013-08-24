@@ -1,42 +1,52 @@
 #import <Foundation/Foundation.h>
-#import <LastFMAPI/TBXML.h>
+#import <LastFMAPI/GDataXMLNode.h>
 #import <LastFMAPI/AMDataObjects.h>
 
 @interface AMDataObject ()
--(id)initFromNode:(TBXMLElement *)Node;
+-(id)initFromNode:(GDataXMLElement *)Node;
 @end
 
 @interface AMXMLTools : NSObject
 
 +(NSString *)getTextValue:(NSString *)Child
-                     Node:(TBXMLElement *)Parent;
+                     Node:(GDataXMLElement *)Parent;
 
 +(NSNumber *)getIntValue:(NSString *)Child
-                    Node:(TBXMLElement *)Parent;
+                    Node:(GDataXMLElement *)Parent;
+
++(NSString *)getTextValue:(GDataXMLElement *)Parent;
+
++(NSNumber *)getIntValue:(GDataXMLElement *)Parent;
 
 +(NSString *)getTextAttribute:(NSString *)Attribute
-                         Node:(TBXMLElement *)Parent;
+                         Node:(GDataXMLElement *)Parent;
 
 +(NSNumber *)getIntAttribute:(NSString *)Attribute
-                        Node:(TBXMLElement *)Parent;
+                        Node:(GDataXMLElement *)Parent;
 
-+(NSDictionary *)getDictionaryFromParent:(TBXMLElement *)Parent
++(NSDictionary *)getDictionaryFromParent:(GDataXMLElement *)Parent
                           TextAttributes:(NSArray *)TextAttributes
                            IntAttributes:(NSArray *)IntAttributes;
 
-+(NSArray *)getDictionaryArrayFromParent:(TBXMLElement *)Parent
++(NSArray *)getDictionaryArrayFromParent:(GDataXMLElement *)Parent
                                      Key:(NSString *)Key
                           TextAttributes:(NSArray *)TextAttributes
                            IntAttributes:(NSArray *)IntAttributes;
 
-+(NSArray *)getDictionaryArrayFromParent:(TBXMLElement *)Parent
++(NSArray *)getDictionaryArrayFromParent:(GDataXMLElement *)Parent
                                      Key:(NSString *)Key
                                   SubKey:(NSString *)SubKey
                           TextAttributes:(NSArray *)TextAttributes
                            IntAttributes:(NSArray *)IntAttributes;
 
-+(void)enumerateNodes:(TBXMLElement *)Node
++(GDataXMLElement *)getFirstChild:(GDataXMLElement *)Parent
+                            Named:(NSString *)Name;
+
++(NSArray *)getChildren:(GDataXMLElement *)Parent
+                  Named:(NSString *)Name;
+
++(void)enumerateNodes:(GDataXMLElement *)Node
                   Key:(NSString *)Key
-                Block:(void (^)(TBXMLElement *Element, BOOL *stop)) block;
+                Block:(void (^)(GDataXMLElement *Element, BOOL *stop)) block;
 
 @end

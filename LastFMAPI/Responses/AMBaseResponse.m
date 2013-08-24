@@ -1,8 +1,10 @@
 #import <LastFMAPI/AMBaseResponse.h>
 #import <LastFMAPI/AMDefinitions.h>
-#import <LastFMAPI/TBXML.h>
+#import <LastFMAPI/GDataXMLNode.h>
+#import <LastFMAPI/AMXMLTools.h>
 
 @interface AMBaseResponse ()
+@property (nonatomic, retain) GDataXMLDocument *XMLDoc;
 @property (nonatomic, retain) NSMutableData *Data;
 @property (nonatomic, assign) BOOL isCancelled;
 @end
@@ -82,7 +84,7 @@ didReceiveResponse:(NSURLResponse *)response
     }
     [self setConnection:nil];
     NSError *Error = nil;
-    TBXMLElement *nodeVal = [self loadFromResponse:&Error];
+    GDataXMLElement *nodeVal = [self loadFromResponse:&Error];
     
     if (Error)
     {
@@ -104,18 +106,19 @@ didReceiveResponse:(NSURLResponse *)response
     return Error;
 }
 
--(TBXMLElement *)loadFromResponse:(NSError **)Error
+-(GDataXMLElement *)loadFromResponse:(NSError **)Error
 {
     NSError *localError = nil;
-    TBXML *XMLParser = [[TBXML alloc] initWithXMLData:[self Data] error:Error];
+
+    [self setXMLDoc:[[GDataXMLDocument alloc] initWithData:[self Data] options:0 error:Error]];
     if (*Error)
     {
         return nil;
     }
     
-    TBXMLElement *rootNode = [XMLParser rootXMLElement];
+    GDataXMLElement *rootNode = [[self XMLDoc] rootElement];
     
-    NSString *status = [TBXML valueOfAttributeNamed:AM_XML_KEY_STATUS forElement:rootNode];
+    NSString *status = [AMXMLTools getTextAttribute:AM_XML_KEY_STATUS Node:rootNode];
     
     if ([status isEqualToString:AM_XML_KEY_OK])
     {
@@ -123,11 +126,11 @@ didReceiveResponse:(NSURLResponse *)response
     }
     else if ([status isEqualToString:AM_XML_KEY_FAILED])
     {
-        TBXMLElement *errorNode = [TBXML childElementNamed:AM_XML_KEY_ERROR parentElement:rootNode];
+        GDataXMLElement *errorNode = [AMXMLTools getFirstChild:rootNode Named:AM_XML_KEY_ERROR];
         if (errorNode)
         {
-            NSNumber *ErrorCode = [NSNumber numberWithInt:[[TBXML valueOfAttributeNamed:AM_XML_KEY_CODE forElement:errorNode] intValue]];
-            NSString *ErrorDescription = [TBXML textForElement:errorNode];
+            NSNumber *ErrorCode = [AMXMLTools getIntAttribute:AM_XML_KEY_CODE Node:errorNode];
+            NSString *ErrorDescription = [AMXMLTools getTextValue:errorNode];
             localError = [self generateError:[ErrorCode integerValue] Description:ErrorDescription];
             if (Error) *Error = localError;
             return nil;
@@ -144,7 +147,7 @@ didReceiveResponse:(NSURLResponse *)response
     [[self Delegate] Response:self Error:Error];
 }
 
--(void)responseWithData:(TBXMLElement *)Data
+-(void)responseWithData:(GDataXMLElement *)Data
 {
     
 }

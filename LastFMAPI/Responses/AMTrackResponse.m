@@ -16,14 +16,14 @@
     return self;
 }
 
--(void)responseWithData:(TBXMLElement *)Data
+-(void)responseWithData:(GDataXMLElement *)Data
 {
     if ([self Method] == AM_MTHD_TRACK_UPDATENOWPLAYING) [self UpdateNowPlaying:Data];
     else if ([self Method] == AM_MTHD_TRACK_SCROBBLE) [self Scrobble:Data];
     else if ([self Method] == AM_MTHD_TRACK_GETINFO) [self GetInfo:Data];
 }
 
--(void)UpdateNowPlaying:(TBXMLElement *)Data
+-(void)UpdateNowPlaying:(GDataXMLElement *)Data
 {
     AMNowPlaying *nowPlaying = [[AMNowPlaying alloc] initFromNode:Data];
     if ([[self Delegate] respondsToSelector:@selector(TrackResponse:UpdateNowPlaying:)])
@@ -32,7 +32,7 @@
     }
 }
 
--(void)Scrobble:(TBXMLElement *)Data
+-(void)Scrobble:(GDataXMLElement *)Data
 {
     AMScrobbles *scrobbles = [[AMScrobbles alloc] initFromNode:Data];
     if ([[self Delegate] respondsToSelector:@selector(TrackResponse:Scrobble:)])
@@ -41,7 +41,7 @@
     }
 }
 
--(void)GetInfo:(TBXMLElement *)Data
+-(void)GetInfo:(GDataXMLElement *)Data
 {
     AMTrackWithInfo *trackInfo = [[AMTrackWithInfo alloc] initFromNode:Data];
     if ([[self Delegate] respondsToSelector:@selector(TrackResponse:GetInfo:)])
