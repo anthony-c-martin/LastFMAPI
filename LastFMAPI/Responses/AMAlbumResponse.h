@@ -10,7 +10,7 @@
 
 @interface AMAlbumResponse : AMBaseResponse
 
-@property (nonatomic, assign) id<AMAlbumResponseDelegate> Delegate;
+@property (nonatomic, retain) id<AMAlbumResponseDelegate> Delegate;
 
 +(id)AlbumResponseWithDelegate:(id<AMAlbumResponseDelegate>)delegate;
 

@@ -12,7 +12,7 @@
 
 @interface AMTrackResponse : AMBaseResponse
 
-@property (nonatomic, assign) id<AMTrackResponseDelegate> Delegate;
+@property (nonatomic, retain) id<AMTrackResponseDelegate> Delegate;
 
 +(id)TrackResponseWithDelegate:(id<AMTrackResponseDelegate>)delegate;
 

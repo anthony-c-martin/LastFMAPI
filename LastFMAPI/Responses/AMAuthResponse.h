@@ -12,7 +12,7 @@
 
 @interface AMAuthResponse : AMBaseResponse
 
-@property (nonatomic, assign) id<AMAuthResponseDelegate> Delegate;
+@property (nonatomic, retain) id<AMAuthResponseDelegate> Delegate;
 
 +(id)AuthResponseWithDelegate:(id<AMAuthResponseDelegate>)delegate;
 

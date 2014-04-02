@@ -8,7 +8,7 @@
 
 @interface AMBaseResponse : NSObject <NSURLConnectionDelegate>
 
-@property (nonatomic, assign) id<AMBaseResponseDelegate> Delegate;
+@property (nonatomic, retain) id<AMBaseResponseDelegate> Delegate;
 @property (nonatomic, retain) NSString *Method;
 @property (nonatomic, retain) NSURLConnection *Connection;
 
