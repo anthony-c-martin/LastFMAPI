@@ -255,3 +255,10 @@ NSString *const AM_XML_KEY_FAILED = @"failed";
     return (obj ? obj : [self null]);
 }
 @end
+
+#pragma mark NSString AMNilAddition Extension
+@implementation NSString (AMNilAddition)
++(NSString *)emptyStringIfNil:(NSString *)string {
+    return string ? string : @"";
+}
+@end

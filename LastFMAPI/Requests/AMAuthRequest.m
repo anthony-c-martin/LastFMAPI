@@ -22,7 +22,7 @@
             Token:(NSString *)token
 {
     NSDictionary *Params = [NSDictionary dictionaryWithObjectsAndKeysIngnoringNull:
-                            [NSNull nullWhenNil:token], AM_REQ_PARAM_TOKEN,
+                            [NSString emptyStringIfNil:token], AM_REQ_PARAM_TOKEN,
                             nil
                             ];
     

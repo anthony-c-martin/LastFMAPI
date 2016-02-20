@@ -232,4 +232,9 @@ extern NSString *const AM_XML_KEY_FAILED;
 +(id)nullWhenNil:(id)obj;
 @end
 
+#pragma mark NSString AMNilAddition Extension
+@interface NSString (AMNilAddition)
++(NSString *)emptyStringIfNil:(NSString *)string;
+@end
+
 #endif
